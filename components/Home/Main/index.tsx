@@ -3,8 +3,9 @@ import { Message } from '@/type/chat'
 import { Card, CardBody, Input } from '@nextui-org/react'
 import { useState } from 'react'
 import { AiOutlineSound } from 'react-icons/ai'
-import { PiFlowerTulipLight } from 'react-icons/pi'
-import { MdOutlineQuestionAnswer } from 'react-icons/md'
+import { MdKeyboardVoice } from 'react-icons/md'
+import { ImSun } from 'react-icons/im'
+import { GiEvilMoon } from 'react-icons/gi'
 
 const Main = () => {
   const [content, setContent] = useState('')
@@ -29,7 +30,7 @@ const Main = () => {
     <div className="flex flex-col  justify-center items-center flex-1 space-y-3">
       <Card className="absolute top-1/4">
         <CardBody className="flex flex-row space-x-3 ">
-          <div className="text-4xl flex items-center">
+          <div className="text-4xl flex items-center text-sky-400">
             <AiOutlineSound />
           </div>
           <div className="flex items-center text-xl">
@@ -38,10 +39,30 @@ const Main = () => {
         </CardBody>
       </Card>
 
-      <Card>
+      {question && (
+        <Card className=" w-[1000px] mt-3">
+          <CardBody className="flex flex-row space-x-3 ">
+            <div className="text-4xl flex items-center">
+              <ImSun />
+            </div>
+            <div className="flex items-center text-xl w-full">{question}</div>
+          </CardBody>
+        </Card>
+      )}
+      {answer && (
+        <Card className="w-[1000px]">
+          <CardBody className="flex flex-row space-x-3 ">
+            <div className="text-4xl flex items-center">
+              <GiEvilMoon />
+            </div>
+            <div className="flex items-center text-xl w-full">{answer}</div>
+          </CardBody>
+        </Card>
+      )}
+      <Card className="absolute bottom-16">
         <CardBody className="flex flex-row space-x-3 w-[1000px]">
-          <div className="text-4xl flex items-center">
-            <PiFlowerTulipLight />:
+          <div className="text-4xl flex items-center text-sky-400">
+            <MdKeyboardVoice />
           </div>
           <div className="flex-1 items-end text-xl">
             <Input
@@ -63,26 +84,6 @@ const Main = () => {
           </div>
         </CardBody>
       </Card>
-      {question && (
-        <Card className=" w-[1000px] mt-3">
-          <CardBody className="flex flex-row space-x-3 ">
-            <div className="text-4xl flex items-center">
-              <MdOutlineQuestionAnswer />:
-            </div>
-            <div className="flex items-center text-xl w-full">{question}</div>
-          </CardBody>
-        </Card>
-      )}
-      {answer && (
-        <Card className="w-[1000px]">
-          <CardBody className="flex flex-row space-x-3 ">
-            <div className="text-4xl flex items-center">
-              <MdOutlineQuestionAnswer />:
-            </div>
-            <div className="flex items-center text-xl w-full">{answer}</div>
-          </CardBody>
-        </Card>
-      )}
     </div>
   )
 }
