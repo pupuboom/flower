@@ -1,89 +1,50 @@
 'use client'
-import { Message } from '@/type/chat'
-import { Card, CardBody, Input } from '@nextui-org/react'
-import { useState } from 'react'
-import { AiOutlineSound } from 'react-icons/ai'
-import { MdKeyboardVoice } from 'react-icons/md'
-import { ImSun } from 'react-icons/im'
-import { GiEvilMoon } from 'react-icons/gi'
+import { Card, CardHeader, CardBody, Image } from '@nextui-org/react'
+import { IoHome } from 'react-icons/io5'
+import { VscTable } from 'react-icons/vsc'
 
 const Main = () => {
-  const [content, setContent] = useState('')
-  const [answer, setAnswer] = useState('')
-  const [question, setQuestion] = useState('')
-  const send = async () => {
-    setQuestion(content)
-    setContent('')
-    if (content.length > 0) {
-      const message: Message = { role: 'user', content: content }
-      console.log(message)
-      const response = await fetch('http://127.0.0.1:5000/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message }),
-      })
-      const { res } = await response.json()
-      setAnswer(res)
-    }
-  }
+  const list = [
+    {
+      title: '首页',
+      icon: <IoHome />,
+      img: '/images/house.jpg',
+      describe: '欢迎来到Ac小镇',
+      url: '/',
+    },
+    {
+      title: '信息抽取',
+      icon: <VscTable />,
+      img: '/images/ocr.jpg',
+      describe: '表格图片ocr服务及信息结构化',
+      url: '/kie',
+    },
+  ]
   return (
     <div className="flex flex-col  justify-center items-center flex-1 space-y-3">
-      <Card className="absolute top-1/4">
-        <CardBody className="flex flex-row space-x-3 ">
-          <div className="text-4xl flex items-center text-sky-400">
-            <AiOutlineSound />
-          </div>
-          <div className="flex items-center text-xl">
-            欢迎来到微调！这是一个以大语言模型为基础构建的应用网站。我可以进行对话理解，传统的自然语言处理等任务，我有什么可以帮助您的吗~~~
-          </div>
-        </CardBody>
-      </Card>
-
-      {question && (
-        <Card className=" w-[1000px] mt-3">
-          <CardBody className="flex flex-row space-x-3 ">
-            <div className="text-4xl flex items-center">
-              <ImSun />
-            </div>
-            <div className="flex items-center text-xl w-full">{question}</div>
-          </CardBody>
-        </Card>
-      )}
-      {answer && (
-        <Card className="w-[1000px]">
-          <CardBody className="flex flex-row space-x-3 ">
-            <div className="text-4xl flex items-center">
-              <GiEvilMoon />
-            </div>
-            <div className="flex items-center text-xl w-full">{answer}</div>
-          </CardBody>
-        </Card>
-      )}
-      <Card className="absolute bottom-16">
-        <CardBody className="flex flex-row space-x-3 w-[1000px]">
-          <div className="text-4xl flex items-center text-sky-400">
-            <MdKeyboardVoice />
-          </div>
-          <div className="flex-1 items-end text-xl">
-            <Input
-              type="email"
-              color="success"
-              size="lg"
-              placeholder=""
-              className=""
-              value={content}
-              onChange={(e) => {
-                setContent(e.target.value)
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  send()
-                }
-              }}
-            />
-          </div>
-        </CardBody>
-      </Card>
+      <div className="flex space-x-10">
+        {list.map((item, index) => (
+          <Card className="py-4" key={index}>
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <h4 className="font-bold text-large flex items-center space-x-2">
+                <span>{item.icon}</span>
+                <span>
+                  <a href={item.url}>{item.title}</a>
+                </span>
+              </h4>
+              <small className="text-default-500">{item.describe}</small>
+            </CardHeader>
+            <CardBody className="overflow-visible py-2">
+              <Image
+                alt="Card background"
+                className="object-cover rounded-xl"
+                src={`${item.img}`}
+                width={200}
+              />
+            </CardBody>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }

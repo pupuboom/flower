@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Home/Header'
 import Footer from '@/components/Home/Footer'
 import { Providers } from './providers'
+import AppContextProvider from '@/components/AppContext'
 
 export const metadata: Metadata = {
   title: 'Flower',
@@ -17,13 +18,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>
-          <div className="h-full w-full flex flex-col min-h-[100vh]">
-            <Header />
-            {children}
-            <Footer />
-          </div>
-        </Providers>
+        <AppContextProvider>
+          <Providers>
+            <div className="h-full w-full flex flex-col min-h-[100vh]">
+              <Header />
+              {children}
+              <Footer />
+            </div>
+          </Providers>
+        </AppContextProvider>
       </body>
     </html>
   )
