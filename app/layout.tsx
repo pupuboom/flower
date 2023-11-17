@@ -21,9 +21,7 @@ export default function RootLayout({
         <AppContextProvider>
           <Providers>
             <div className="h-full w-full flex flex-col min-h-[100vh]">
-              <Header />
               {children}
-              <Footer />
             </div>
           </Providers>
         </AppContextProvider>

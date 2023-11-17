@@ -2,6 +2,7 @@ export type State = {
   ocrRes: []
   ocrTableLoading: boolean
   allLoading: boolean
+  isChat: boolean
 }
 
 export enum ActionType {
@@ -18,6 +19,7 @@ export const initState: State = {
   ocrRes: [],
   ocrTableLoading: false,
   allLoading: false,
+  isChat: false,
 }
 
 export type Action = UpdateAction

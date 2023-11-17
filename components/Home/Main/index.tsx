@@ -1,12 +1,15 @@
 'use client'
-import { Card, CardHeader, CardBody, Image } from '@nextui-org/react'
+import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons'
+import React, { useState } from 'react'
+import { FloatButton, Switch } from 'antd'
 import { IoHome } from 'react-icons/io5'
 import { VscTable } from 'react-icons/vsc'
+import { Carousel } from 'antd'
 
 const Main = () => {
   const list = [
     {
-      title: '首页',
+      title: '对话机器人',
       icon: <IoHome />,
       img: '/images/house.jpg',
       describe: '欢迎来到Ac小镇',
@@ -21,30 +24,15 @@ const Main = () => {
     },
   ]
   return (
-    <div className="flex flex-col  justify-center items-center flex-1 space-y-3">
-      <div className="flex space-x-10">
-        {list.map((item, index) => (
-          <Card className="py-4" key={index}>
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-              <h4 className="font-bold text-large flex items-center space-x-2">
-                <span>{item.icon}</span>
-                <span>
-                  <a href={item.url}>{item.title}</a>
-                </span>
-              </h4>
-              <small className="text-default-500">{item.describe}</small>
-            </CardHeader>
-            <CardBody className="overflow-visible py-2">
-              <Image
-                alt="Card background"
-                className="object-cover rounded-xl"
-                src={`${item.img}`}
-                width={200}
-              />
-            </CardBody>
-          </Card>
-        ))}
-      </div>
+    <div className="flex-1 flex pt-[30px]">
+      <FloatButton.Group
+        trigger="click"
+        style={{ right: 24, top: 100 }}
+        className="flex flex-row"
+        icon={<CustomerServiceOutlined />}>
+        <FloatButton />
+        <FloatButton icon={<CommentOutlined />} />
+      </FloatButton.Group>
     </div>
   )
 }
