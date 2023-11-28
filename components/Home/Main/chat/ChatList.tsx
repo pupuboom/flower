@@ -63,7 +63,7 @@ const ChatList = () => {
         {chatList.map((item, index) => (
           <li
             key={index}
-            className="hover:bg-slate-600 w-full h-[43px] rounded-md flex items-center px-4 whitespace-nowrap overflow-hidden space-x-2">
+            className="hover:bg-gray-600  w-full h-[43px] rounded-md flex items-center px-4 whitespace-nowrap overflow-hidden space-x-2">
             <div className="text-lg">
               <IoChatboxEllipsesOutline />
             </div>

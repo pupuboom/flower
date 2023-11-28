@@ -4,6 +4,7 @@ import Header from '@/components/Home/Header'
 import Footer from '@/components/Home/Footer'
 import { Providers } from './providers'
 import AppContextProvider from '@/components/AppContext'
+import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata: Metadata = {
   title: 'Flower',
@@ -21,7 +22,13 @@ export default function RootLayout({
         <AppContextProvider>
           <Providers>
             <div className="h-full w-full flex flex-col min-h-[100vh]">
-              {children}
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange>
+                {children}
+              </ThemeProvider>
             </div>
           </Providers>
         </AppContextProvider>

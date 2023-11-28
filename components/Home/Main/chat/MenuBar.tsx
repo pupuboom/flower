@@ -7,10 +7,10 @@ const MenuBar = () => {
   return (
     <div className="flex h-[70px] justify-center items-center border-b-1 border-black">
       <div className="w-[280px] h-[45px]">
-        <Button className="flex space-x-2 justify-between items-center w-full hover:bg-slate-600 h-full text-xl">
+        <Button className="bg-gray-800 text-white flex space-x-2 justify-between items-center w-full hover:bg-gray-600 h-full text-xl">
           <div className="flex items-center h-full space-x-2">
             <BsFlower2 />
-            <p className="text-base">新建对话</p>
+            <p className="text-base ">新建对话</p>
           </div>
           <BiEdit />
         </Button>

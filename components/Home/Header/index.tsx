@@ -44,7 +44,7 @@ export default function Header() {
         isBordered
         maxWidth="full">
         <NavbarContent justify="start">
-          <NavbarBrand className="flex space-x-2 text-lg text-sky-600">
+          <NavbarBrand className="flex space-x-2 text-lg font-mono">
             <div
               className="text-3xl hover:cursor-pointer"
               onClick={() => {
