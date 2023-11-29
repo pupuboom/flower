@@ -1,7 +1,8 @@
 import { useAppContext } from '@/components/AppContext'
 import { Avatar } from '@nextui-org/react'
-import MarkDown from '@/components/common/MarkDown'
+import MarkDown from '@/components/common/Markdown'
 import { ScrollShadow } from '@nextui-org/react'
+// import Markdown from 'markdown-to-jsx'
 
 const MessageList = () => {
   const {
@@ -23,9 +24,12 @@ const MessageList = () => {
                   <div className="">
                     <Avatar name="AI" isBordered radius="full" />
                   </div>
-                  <div className="py-2">
-                    <li>
+                  <div className="py-2 flex-1">
+                    <li className="w-full">
                       <MarkDown>{item.content}</MarkDown>
+                      {/* <Markdown options={{ forceBlock: true }}>
+                        {item.content}
+                      </Markdown> */}
                     </li>
                   </div>
                 </div>
@@ -46,6 +50,7 @@ const MessageList = () => {
                   <div className="py-2">
                     <li>
                       <MarkDown>{item.content}</MarkDown>
+                      {/* <Markdown>{item.content}</Markdown> */}
                     </li>
                   </div>
                 </div>

@@ -1,5 +1,12 @@
 export interface Message {
-  chatId: string
+  id: string
   role: 'user' | 'assistant'
   content: string
+  chatId: string
+}
+
+export interface Chat {
+  id: string
+  title: string
+  updateTime: number
 }

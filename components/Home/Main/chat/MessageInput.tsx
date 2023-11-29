@@ -1,40 +1,85 @@
 import { Input } from 'antd'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { IoSend } from 'react-icons/io5'
 import { FiZap } from 'react-icons/fi'
 import TextareaAutoSize from 'react-textarea-autosize'
 import { useAppContext } from '@/components/AppContext'
 import { ActionType } from '@/reducer/AppReducer'
 import { Message } from '@/type/chat'
+import { Controller } from 'react-hook-form'
 
 const MessageInput = () => {
+  const chatIdRef = useRef('')
   const {
     state: { messageList },
     dispatch,
   } = useAppContext()
-  const [message, setMessage] = useState('')
-  const send = async () => {
-    const messageInput: Message = {
-      chatId: '',
-      role: 'user',
-      content: message,
+  const [messageContent, setMessageContent] = useState('')
+  const createOrUpdateMessage = async (message: Message) => {
+    const response = await fetch('/api/message/update', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(message),
+    })
+    if (!response.ok) {
+      return
     }
-    dispatch({ type: ActionType.ADD_MESSAGE, messageInput })
-    setMessage('')
+    const { data } = await response.json()
+    if (!chatIdRef.current) {
+      chatIdRef.current = data.message.chatId
+    }
+    return data.message
+  }
+  const send = async () => {
+    const message = await createOrUpdateMessage({
+      id: '',
+      role: 'user',
+      content: messageContent,
+      chatId: chatIdRef.current,
+    })
+    if (!message) {
+      return
+    }
+    dispatch({ type: ActionType.ADD_MESSAGE, message })
+    setMessageContent('')
+    const controller = new AbortController()
     const response = await fetch('/api/chat', {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
+      signal: controller.signal,
       body: JSON.stringify({ message }),
     })
-    if (response.ok) {
-      const { resp } = await response.json()
-      const resp_content = resp['kwargs']['content']
-      const messageInput: Message = {
-        chatId: '',
+    if (response.ok && response.body) {
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let done = false
+      let content = ''
+      const responseMessage: Message = await createOrUpdateMessage({
+        id: '',
         role: 'assistant',
-        content: resp_content,
+        content: '',
+        chatId: chatIdRef.current,
+      })
+      if (!responseMessage) {
+        controller.abort()
+        return
       }
-      dispatch({ type: ActionType.ADD_MESSAGE, messageInput })
+      dispatch({ type: ActionType.ADD_MESSAGE, message: responseMessage })
+
+      while (!done) {
+        const result = await reader.read()
+        done = result.done
+        const chunk = decoder.decode(result.value)
+        console.log('chunk', chunk)
+        content += chunk
+        dispatch({
+          type: ActionType.UPDATE_MESSAGE,
+          message: { ...responseMessage, content },
+        })
+      }
+      createOrUpdateMessage({ ...responseMessage, content })
     }
   }
   return (
@@ -48,13 +93,13 @@ const MessageInput = () => {
           placeholder={'请在此输入问题或“/”选择案例'}
           rows={1}
           autoFocus
-          value={message}
+          value={messageContent}
           maxLength={8000}
           onChange={(e) => {
-            setMessage(e.target.value)
+            setMessageContent(e.target.value)
           }}
         />
-        {message.length > 0 ? (
+        {messageContent.length > 0 ? (
           <div
             className="text-xl text-green-500"
             onClick={() => {
